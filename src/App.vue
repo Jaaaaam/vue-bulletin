@@ -13,6 +13,10 @@
     <!-- main body of our application -->
     <div class="container" id="events">
 
+      <div class="jumbotron">
+        <h2>Bulletin Events Board</h2>
+      </div>
+
       <!-- add an event form -->
       <div class="col-sm-6">
         <div class="panel panel-default">
@@ -20,7 +24,13 @@
             <h3>Add an Event</h3>
           </div>
           <div class="panel-body">
-
+            <input class="form-control" placeholder="Event Name" v-model="eventItem.title">
+            <br>
+            <textarea class="form-control" rows="3" cols="80" placeholder="Event Details" v-model="eventItem.description"></textarea>
+            <br>
+            <input class="form-control" placeholder="Date" v-model="eventItem.date">
+            <br>
+            <button type="button" name="button" class="btn btn-primary" @click="addEvent(eventItem)">Add Event</button>
           </div>
 
         </div>
@@ -42,7 +52,7 @@
 
             <p class="list-group-item-text"> {{ eventItem.description }} </p>
 
-            <button class="btn btn-xs btn-danger">Delete</button>
+            <button class="btn btn-xs btn-danger" @click="removeEvent(eventItem)">Delete</button>
           </a>
         </div>
       </div>
@@ -54,9 +64,26 @@
 import { mapGetters } from 'vuex'
 export default {
   name: 'app',
+  data () {
+    return {
+      eventItem: {
+        title: '',
+        description: '',
+        date: ''
+      }
+    }
+  },
   computed: mapGetters({
     events: 'allEvents'
-  })
+  }),
+  methods: {
+    addEvent: function (eventItem) {
+      this.$store.dispatch('addEvent', eventItem)
+    },
+    removeEvent: function (eventItem) {
+      this.$store.dispatch('removeEvent', eventItem)
+    }
+  }
 }
 </script>
 
